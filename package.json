@@ -1,0 +1,24 @@
+{
+  "name": "ict-chamber-publicvoice",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "install-all": "npm install && npm install --prefix frontend && npm install --prefix backend",
+    "frontend": "npm start --prefix frontend",
+    "backend": "npm start --prefix backend",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angebhd/ict-chamber-publicvoice.git"
+  },
+  "author": "Asifiwe Buhendwa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/angebhd/ict-chamber-publicvoice/issues"
+  },
+  "homepage": "https://github.com/angebhd/ict-chamber-publicvoice#readme"
+}
