@@ -28,7 +28,10 @@ const LoginPage = () => {
       // Redirect based on user role
       if (user.role === 'admin') {
         navigate('/admin');
-      } else {
+      }else if(user.role === 'superadmin') {
+        navigate('/superadmin');
+      }
+       else {
         navigate(from);
       }
     } catch (error) {
