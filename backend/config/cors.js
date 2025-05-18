@@ -1,6 +1,6 @@
 import cors from 'cors';
 const corsOptions = {
-  origin: '*',  
+  origin: true,  
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
