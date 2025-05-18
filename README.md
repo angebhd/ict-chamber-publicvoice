@@ -170,18 +170,22 @@ After initialization, you can log in with these accounts:
 
 ```
 public-voice/
-├── src/                    # Frontend source code
-│   ├── components/         # Reusable components
-│   ├── context/           # React context providers
-│   ├── pages/             # Page components
-│   └── services/          # API services
-├── server/                # Backend source code
-│   ├── config/           # Server configuration
-│   ├── controllers/      # Route controllers
-│   ├── middleware/       # Custom middleware
-│   ├── models/           # Database models
-│   └── routes/           # API routes
-└── public/               # Static assets
+├── frontend/                   # Frontend source code
+├── src/         
+│     ├── public/               # public assets
+│     ├── components/           # Reusable components
+│     ├── context/              # React context providers
+│     ├── pages/                # Page components
+│     ├── services/             # API services
+│     ├── app.jsx/              # App entry point
+│     ├── main.jsx/             # React entry point
+│     └── index.html            # Entrypoint
+└── backend/                    # Backend source code
+    ├── config/                 # Server configuration
+    ├── controllers/            # Route controllers
+    ├── middleware/             # Custom middleware
+    ├── models/                 # Database models
+    └── routes/                 # API routes
 ```
 
 ## API Endpoints
