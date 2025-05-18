@@ -46,7 +46,7 @@ const LoginPage = () => {
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-neutral-900 mb-2">Welcome Back</h1>
             <p className="text-neutral-600">
-              Sign in to continue to CiviConnect
+              Sign in to continue to PublicVoice
             </p>
           </div>
 
@@ -69,7 +69,7 @@ const LoginPage = () => {
                 <input
                   id="email"
                   type="email"
-                  className={`input pl-10 ${errors.email ? 'border-error focus:ring-error' : ''}`}
+                  className={`input pl-20 ${errors.email ? 'border-error focus:ring-error' : ''}`}
                   placeholder="you@example.com"
                   {...register('email', {
                     required: 'Email is required',
@@ -96,7 +96,7 @@ const LoginPage = () => {
                 <input
                   id="password"
                   type="password"
-                  className={`input pl-10 ${errors.password ? 'border-error focus:ring-error' : ''}`}
+                  className={`input pl-20 ${errors.password ? 'border-error focus:ring-error' : ''}`}
                   placeholder="••••••••"
                   {...register('password', {
                     required: 'Password is required',

@@ -56,7 +56,7 @@ const RegisterPage = () => {
           )}
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-neutral-700 mb-1">
                   Full Name
@@ -68,7 +68,7 @@ const RegisterPage = () => {
                   <input
                     id="name"
                     type="text"
-                    className={`input pl-10 ${errors.name ? 'border-error focus:ring-error' : ''}`}
+                    className={`input pl-20 ${errors.name ? 'border-error focus:ring-error' : ''}`}
                     placeholder="John Doe"
                     {...register('name', {
                       required: 'Name is required',
@@ -95,7 +95,7 @@ const RegisterPage = () => {
                   <input
                     id="email"
                     type="email"
-                    className={`input pl-10 ${errors.email ? 'border-error focus:ring-error' : ''}`}
+                    className={`input pl-20 ${errors.email ? 'border-error focus:ring-error' : ''}`}
                     placeholder="you@gmail.com"
                     {...register('email', {
                       required: 'Email is required',
@@ -122,7 +122,7 @@ const RegisterPage = () => {
                   <input
                     id="phone"
                     type="tel"
-                    className={`input pl-10 ${errors.phone ? 'border-error focus:ring-error' : ''}`}
+                    className={`input pl-20 ${errors.phone ? 'border-error focus:ring-error' : ''}`}
                     placeholder="(123) 456-7890"
                     {...register('phone', {
                       required: 'Phone number is required',
@@ -157,19 +157,19 @@ const RegisterPage = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
               <div>
                 <label htmlFor="password" className="block text-sm font-medium text-neutral-700 mb-1">
                   Password
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex  items-center pointer-events-none">
                     <FiLock className="h-5 w-5 text-neutral-400" />
                   </div>
                   <input
                     id="password"
                     type="password"
-                    className={`input pl-10 ${errors.password ? 'border-error focus:ring-error' : ''}`}
+                    className={`input pl-20 ${errors.password ? 'border-error focus:ring-error' : ''}`}
                     placeholder="••••••••"
                     {...register('password', {
                       required: 'Password is required',
@@ -196,7 +196,7 @@ const RegisterPage = () => {
                   <input
                     id="confirmPassword"
                     type="password"
-                    className={`input pl-10 ${errors.confirmPassword ? 'border-error focus:ring-error' : ''}`}
+                    className={`input pl-20 ${errors.confirmPassword ? 'border-error focus:ring-error' : ''}`}
                     placeholder="••••••••"
                     {...register('confirmPassword', {
                       required: 'Please confirm your password',

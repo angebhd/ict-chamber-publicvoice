@@ -120,7 +120,7 @@ const AdminDashboardPage = () => {
         <div className="bg-white rounded-xl shadow-md p-6 mb-8">
           <h2 className="text-xl font-semibold mb-6">Welcome, {user?.name}</h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="bg-neutral-50 rounded-lg p-4 flex items-center">
               <div className="bg-primary-100 rounded-full p-3 mr-4">
                 <FiFileText className="h-6 w-6 text-primary-600" />

@@ -177,7 +177,7 @@ const HomePage = () => {
                   />
                 </div>
                 <div>
-                  <h4 className="font-semibold">James Wilson</h4>
+                  <h4 className="font-semibold">James Manzi</h4>
                   <p className="text-sm text-neutral-500">Downtown Resident</p>
                 </div>
               </div>
@@ -186,7 +186,7 @@ const HomePage = () => {
             <div className="bg-white rounded-xl shadow-md p-8 relative">
               <div className="text-primary-400 text-4xl absolute top-4 left-4 opacity-20">"</div>
               <p className="text-neutral-700 mb-6 relative z-10">
-                After struggling to get my garbage collection issues resolved for weeks, I used CiviConnect and received a response within 48 hours. The problem was resolved the following day!
+                After struggling to get my garbage collection issues resolved for weeks, I used PublicVoice and received a response within 48 hours. The problem was resolved the following day!
               </p>
               <div className="flex items-center">
                 <div className="w-12 h-12 bg-neutral-200 rounded-full mr-4 overflow-hidden">
@@ -197,8 +197,8 @@ const HomePage = () => {
                   />
                 </div>
                 <div>
-                  <h4 className="font-semibold">Sarah Johnson</h4>
-                  <p className="text-sm text-neutral-500">Westside Community</p>
+                  <h4 className="font-semibold">Sarah Mutoni</h4>
+                  <p className="text-sm text-neutral-500">Remera Resident</p>
                 </div>
               </div>
             </div>
@@ -217,8 +217,8 @@ const HomePage = () => {
                   />
                 </div>
                 <div>
-                  <h4 className="font-semibold">Michael Chen</h4>
-                  <p className="text-sm text-neutral-500">Lakeside Resident</p>
+                  <h4 className="font-semibold">Michael Ishimwe</h4>
+                  <p className="text-sm text-neutral-500">Kicukiro Resident</p>
                 </div>
               </div>
             </div>
@@ -242,7 +242,7 @@ const HomePage = () => {
           <div className="text-center max-w-3xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Ready to Get Started?</h2>
             <p className="text-xl mb-8 text-white/90">
-              Join thousands of citizens who have successfully resolved their issues through CiviConnect.
+              Join thousands of citizens who have successfully resolved their issues through PublicVoice.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link to="/register" className="btn bg-white text-primary-600 hover:bg-white/90 focus:ring-white">

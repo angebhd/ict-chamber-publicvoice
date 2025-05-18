@@ -4,6 +4,8 @@ import { FiMail, FiPhone, FiExternalLink } from 'react-icons/fi';
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
+
+
   return (
     <footer className="bg-neutral-800 text-white pt-12 pb-6">
       <div className="container-custom">
