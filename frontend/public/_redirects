@@ -1,0 +1,3 @@
+# Redirect all routes to index.html for SPA routing (solve 404 on netlify)
+
+/*    /index.html   200
