@@ -3,10 +3,10 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './config/database.js';
 import authRoutes from './routes/authRoutes.js';
-import adminRoutes from './routes/adminRoutes.js';
+import adminRoutes from './routes/superAdminRoutes.js';
 
 // const adminController = require('./controllers/adminController');
-import { initializeSystem } from './controllers/adminController.js';
+import { initializeSystem } from './controllers/superAdminController.js';
 import complaintRoutes from './routes/complaintsRoute.js';
 
 // Load environment variables

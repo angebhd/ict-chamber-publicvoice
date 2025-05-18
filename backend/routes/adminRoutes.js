@@ -1,30 +1,34 @@
+
 import express from 'express';
 import { 
-  createDepartment, 
-  getDepartments,
-  createAdmin,
-  getAdmins,
-  updateAdminStatus,
-  getAdminStats,
-  initializeSystem
+  getComplaints,
+  getComplaintById,
+  updateComplaintStatus,
+  assignComplaint,
+  getCommentsByComplaintId,
+  addComment,
+  getDashboardStats,
+  getDepartmentComplaints
 } from '../controllers/adminController.js';
-import { authenticateToken, isSuperAdmin } from '../middleware/auth.js';
+import { authenticateToken, isAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// Public initialization route (should be disabled in production)
-// router.get('/initialize', initializeSystem);
+// Apply middleware to all routes
+router.use(authenticateToken, isAdmin);
 
-// Super Admin Routes
-router.use(authenticateToken, isSuperAdmin);
+// Dashboard routes
+router.get('/dashboard/stats', getDashboardStats);
+router.get('/complaints', getComplaints);
+router.get('/department/complaints', getDepartmentComplaints);
 
-router.post('/departments', createDepartment);
-router.get('/departments', getDepartments);
+// Complaint management routes
+router.get('/complaints/:id', getComplaintById);
+router.put('/complaints/:id', updateComplaintStatus);
+router.put('/complaints/:id/assign', assignComplaint);
 
-router.post('/admins', createAdmin);
-router.get('/admins', getAdmins);
-router.patch('/admins/:id/status', updateAdminStatus);
-
-router.get('/stats', getAdminStats);
+// Comment routes
+router.get('/complaints/:id/comments', getCommentsByComplaintId);
+router.post('/complaints/:id/comments', addComment);
 
 export default router;

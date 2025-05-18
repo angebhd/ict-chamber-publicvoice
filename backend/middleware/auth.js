@@ -16,7 +16,7 @@ export const authenticateToken = async (req, res, next) => {
     if (!user || !user.isActive) {
       return res.status(401).json({ message: 'User not found or account deactivated' });
     }
-    
+        
     req.user = user;
     next();
   } catch (error) {
@@ -25,7 +25,7 @@ export const authenticateToken = async (req, res, next) => {
 };
 
 export const isAdmin = (req, res, next) => {
-  if (req.user.role !== 'admin') {
+  if (req.user.role !== 'admin' || req.user.role !== 'superadmin') {
     return res.status(403).json({ message: 'Admin access required' });
   }
   next();
@@ -40,7 +40,7 @@ export const isSuperAdmin = (req, res, next) => {
 
 export const isDepartmentAdmin = (departmentCode) => {
   return (req, res, next) => {
-    if (req.user.role !== 'admin' || req.user.department !== departmentCode) {
+    if (req.user.role !== 'admin' || req.user.department !== departmentCode || req.user.role !== 'superadmin') {
       return res.status(403).json({ message: 'Department admin access required' });
     }
     next();
