@@ -4,5 +4,5 @@ const corsOptions = {
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
-
-export default cors(corsOptions);
+const corsMiddleware = cors(corsOptions);
+export default corsMiddleware;
