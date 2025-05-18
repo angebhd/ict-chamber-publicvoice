@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  FiFileText, FiSearch, FiFilter, FiCheckCircle, FiClock, 
-  FiAlertTriangle, FiXCircle, FiBarChart2, FiUsers, FiRefreshCw 
+import {
+  FiFileText, FiSearch, FiFilter, FiCheckCircle, FiClock,
+  FiAlertTriangle, FiXCircle, FiBarChart2, FiUsers, FiRefreshCw
 } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
 import { format } from 'date-fns';
@@ -28,15 +28,16 @@ const AdminDashboardPage = () => {
       try {
         // Only fetch complaints for the admin's department
         const response = await api.get(`/admin/complaints?department=${user.department}`);
-        setComplaints(response.data);
-        
+        setComplaints(response.data.complaints);
+        console.log(response.data);
+
         // Update statistics
-        const total = response.data.length;
-        const pending = response.data.filter(c => c.status === 'pending').length;
-        const inProgress = response.data.filter(c => c.status === 'in_progress').length;
-        const resolved = response.data.filter(c => c.status === 'resolved').length;
-        const rejected = response.data.filter(c => c.status === 'rejected').length;
-        
+        const total = response.data.complaints.length;
+        const pending = response.data.complaints.filter(c => c.status === 'pending').length;
+        const inProgress = response.data.complaints.filter(c => c.status === 'in_progress').length;
+        const resolved = response.data.complaints.filter(c => c.status === 'resolved').length;
+        const rejected = response.data.complaints.filter(c => c.status === 'rejected').length;
+
         setStats({ total, pending, inProgress, resolved, rejected });
       } catch (error) {
         console.error('Error fetching complaints:', error);
@@ -49,12 +50,12 @@ const AdminDashboardPage = () => {
   }, [user.department]);
 
   const filteredComplaints = complaints.filter(complaint => {
-    const matchesSearch = complaint.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          complaint.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          complaint.category.toLowerCase().includes(searchTerm.toLowerCase());
-    
+    const matchesSearch = complaint.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      complaint.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      complaint.category.toLowerCase().includes(searchTerm.toLowerCase());
+
     const matchesStatusFilter = filterStatus === 'all' || complaint.status === filterStatus;
-    
+
     return matchesSearch && matchesStatusFilter;
   });
 
@@ -101,7 +102,7 @@ const AdminDashboardPage = () => {
       public_safety: 'Public Safety',
       other: 'Other'
     };
-    
+
     return categories[categoryId] || categoryId;
   };
 
@@ -113,13 +114,13 @@ const AdminDashboardPage = () => {
           <p className="text-secondary-100">Manage and respond to complaints in your department</p>
         </div>
       </div>
-      
+
       <div className="container-custom py-8">
         {/* Welcome and Stats */}
         <div className="bg-white rounded-xl shadow-md p-6 mb-8">
           <h2 className="text-xl font-semibold mb-6">Welcome, {user?.name}</h2>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <div className="bg-neutral-50 rounded-lg p-4 flex items-center">
               <div className="bg-primary-100 rounded-full p-3 mr-4">
                 <FiFileText className="h-6 w-6 text-primary-600" />
@@ -127,9 +128,10 @@ const AdminDashboardPage = () => {
               <div>
                 <p className="text-sm text-neutral-500">Total Complaints</p>
                 <p className="text-2xl font-semibold">{stats.total}</p>
+                {console.log(stats)}
               </div>
             </div>
-            
+
             <div className="bg-neutral-50 rounded-lg p-4 flex items-center">
               <div className="bg-warning-light rounded-full p-3 mr-4">
                 <FiClock className="h-6 w-6 text-warning" />
@@ -139,7 +141,7 @@ const AdminDashboardPage = () => {
                 <p className="text-2xl font-semibold">{stats.pending}</p>
               </div>
             </div>
-            
+
             <div className="bg-neutral-50 rounded-lg p-4 flex items-center">
               <div className="bg-primary-50 rounded-full p-3 mr-4">
                 <FiAlertTriangle className="h-6 w-6 text-primary" />
@@ -149,7 +151,7 @@ const AdminDashboardPage = () => {
                 <p className="text-2xl font-semibold">{stats.inProgress}</p>
               </div>
             </div>
-            
+
             <div className="bg-neutral-50 rounded-lg p-4 flex items-center">
               <div className="bg-success-light rounded-full p-3 mr-4">
                 <FiCheckCircle className="h-6 w-6 text-success" />
@@ -159,7 +161,7 @@ const AdminDashboardPage = () => {
                 <p className="text-2xl font-semibold">{stats.resolved}</p>
               </div>
             </div>
-            
+
             <div className="bg-neutral-50 rounded-lg p-4 flex items-center">
               <div className="bg-error-light rounded-full p-3 mr-4">
                 <FiXCircle className="h-6 w-6 text-error" />
@@ -171,7 +173,7 @@ const AdminDashboardPage = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Quick Actions and Analytics */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
           {/* Quick Actions */}
@@ -190,7 +192,7 @@ const AdminDashboardPage = () => {
                     <p className="text-sm text-neutral-500">Review and respond to complaints</p>
                   </div>
                 </a>
-                
+
                 <a href="#" className="flex items-center p-3 bg-neutral-50 rounded-lg hover:bg-neutral-100 transition-colors">
                   <div className="bg-secondary-100 rounded-full p-2 mr-3">
                     <FiUsers className="h-5 w-5 text-secondary-600" />
@@ -200,7 +202,7 @@ const AdminDashboardPage = () => {
                     <p className="text-sm text-neutral-500">Manage citizen interactions</p>
                   </div>
                 </a>
-                
+
                 <a href="#" className="flex items-center p-3 bg-neutral-50 rounded-lg hover:bg-neutral-100 transition-colors">
                   <div className="bg-accent-100 rounded-full p-2 mr-3">
                     <FiBarChart2 className="h-5 w-5 text-accent-600" />
@@ -213,7 +215,7 @@ const AdminDashboardPage = () => {
               </div>
             </div>
           </div>
-          
+
           {/* Analytics Graph - Just a placeholder for the MVP */}
           <div className="bg-white rounded-xl shadow-md overflow-hidden lg:col-span-2">
             <div className="p-6 border-b border-neutral-200 flex justify-between items-center">
@@ -234,7 +236,7 @@ const AdminDashboardPage = () => {
                   </p>
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
                 <div className="bg-neutral-50 rounded-lg p-3 text-center">
                   <h3 className="text-xs text-neutral-500 uppercase mb-1">Response Time</h3>
@@ -260,12 +262,12 @@ const AdminDashboardPage = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Complaint List */}
         <div id="complaints" className="bg-white rounded-xl shadow-md overflow-hidden">
           <div className="p-6 border-b border-neutral-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <h2 className="text-xl font-semibold">Department Complaints</h2>
-            
+
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="relative">
                 <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400" />
@@ -277,7 +279,7 @@ const AdminDashboardPage = () => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
-              
+
               <div className="relative">
                 <FiFilter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400" />
                 <select
@@ -292,14 +294,14 @@ const AdminDashboardPage = () => {
                   <option value="rejected">Rejected</option>
                 </select>
               </div>
-              
+
               <button className="btn-outline flex items-center">
                 <FiRefreshCw className="mr-2" />
                 Refresh
               </button>
             </div>
           </div>
-          
+
           {isLoading ? (
             <div className="flex justify-center items-center p-8">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
@@ -332,23 +334,23 @@ const AdminDashboardPage = () => {
                 </thead>
                 <tbody className="divide-y divide-neutral-200">
                   {filteredComplaints.map((complaint) => (
-                    <tr 
-                      key={complaint.id} 
+                    <tr
+                      key={complaint.id}
                       className="hover:bg-neutral-50 transition-colors duration-150"
                     >
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500">
-                        #{complaint.id.substring(0, 8)}
+                        #{complaint._id.substring(0, 8)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <Link 
-                          to={`/admin/complaints/${complaint.id}`}
+                        <Link
+                          to={`/admin/complaints/${complaint._id}`}
                           className="text-primary hover:text-primary-600 font-medium"
                         >
                           {complaint.title}
                         </Link>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        {complaint.userName || 'Anonymous User'}
+                        {complaint.user.name || 'Anonymous User'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
                         <span className="badge-secondary">{getCategoryName(complaint.category)}</span>
@@ -365,8 +367,8 @@ const AdminDashboardPage = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
                         <span className={`
                           badge
-                          ${complaint.priority === 'high' 
-                            ? 'bg-error-light text-error' 
+                          ${complaint.priority === 'high'
+                            ? 'bg-error-light text-error'
                             : complaint.priority === 'medium'
                               ? 'bg-warning-light text-warning'
                               : 'bg-neutral-100 text-neutral-600'

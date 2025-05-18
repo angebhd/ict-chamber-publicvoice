@@ -34,9 +34,9 @@ const SuperAdminDashboard = () => {
     const fetchData = async () => {
       try {
         const [statsRes, departmentsRes, adminsRes] = await Promise.all([
-          api.get('/admin/stats'),
-          api.get('/admin/departments'),
-          api.get('/admin/admins')
+          api.get('/superadmin/stats'),
+          api.get('/superadmin/departments'),
+          api.get('/superadmin/admins')
         ]);
 
         setStats(statsRes.data);

@@ -25,10 +25,12 @@ export const authenticateToken = async (req, res, next) => {
 };
 
 export const isAdmin = (req, res, next) => {
-  if (req.user.role !== 'admin' || req.user.role !== 'superadmin') {
-    return res.status(403).json({ message: 'Admin access required' });
+
+  if (req.user.role === 'admin' || req.user.role === 'superadmin') {
+    next();
+  }else{
+    return res.status(403).json({ message: 'Admin access required --is--' });
   }
-  next();
 };
 
 export const isSuperAdmin = (req, res, next) => {

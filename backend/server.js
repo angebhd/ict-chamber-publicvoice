@@ -3,7 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './config/database.js';
 import authRoutes from './routes/authRoutes.js';
-import adminRoutes from './routes/superAdminRoutes.js';
+import superAdminRoutes from './routes/superAdminRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
 
 // const adminController = require('./controllers/adminController');
 import { initializeSystem } from './controllers/superAdminController.js';
@@ -26,7 +27,9 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/superadmin', superAdminRoutes);
 app.use('/api/admin', adminRoutes);
+
 app.use('/api/complaints', complaintRoutes);
 
 

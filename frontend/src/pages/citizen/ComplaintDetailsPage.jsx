@@ -25,11 +25,15 @@ const ComplaintDetailsPage = () => {
       try {
         // In a real implementation, you would fetch from actual endpoints
         const response = await api.get(`/complaints/${id}`);
+        response.data.id = response.data._id;
+        console.log(response.data);
+        
         setComplaint(response.data);
+        setComments(response.data.comments.map(comment => ({ ...comment, id: comment._id })));
         
         // Fetch comments
-        const commentsResponse = await api.get(`/complaints/${id}/comments`);
-        setComments(commentsResponse.data);
+        // const commentsResponse = await api.get(`/complaints/${id}/comments`);
+        // setComments(commentsResponse.data);
       } catch (error) {
         console.error('Error fetching complaint details:', error);
         notify.error('Failed to load complaint details');
@@ -73,6 +77,8 @@ const ComplaintDetailsPage = () => {
   };
 
   const getStatusName = (status) => {
+
+    
     switch (status) {
       case 'pending':
         return 'Pending Review';
@@ -356,11 +362,11 @@ const ComplaintDetailsPage = () => {
                         <div className="w-10 h-10 bg-neutral-200 rounded-full mr-3 overflow-hidden">
                           {/* Would use actual user avatar in production */}
                           <div className="w-full h-full flex items-center justify-center bg-primary-100 text-primary-600">
-                            {comment.userName.charAt(0).toUpperCase()}
+                            {comment?.user.name?.charAt(0).toUpperCase()}
                           </div>
                         </div>
                         <div>
-                          <h4 className="font-medium">{comment.userName}</h4>
+                          <h4 className="font-medium">{comment.user.name}</h4>
                           <p className="text-xs text-neutral-500">
                             {format(new Date(comment.createdAt), 'MMM d, yyyy, h:mm a')}
                           </p>

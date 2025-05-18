@@ -23,15 +23,18 @@ const DashboardPage = () => {
     const fetchComplaints = async () => {
       try {
         const response = await api.get('/complaints');
+
+        response.data = response.data.map(item => ({ ...item, id: item._id }))
+
         setComplaints(response.data);
-        
+
         // Update statistics
         const total = response.data.length;
         const pending = response.data.filter(c => c.status === 'pending').length;
         const inProgress = response.data.filter(c => c.status === 'in_progress').length;
         const resolved = response.data.filter(c => c.status === 'resolved').length;
         const rejected = response.data.filter(c => c.status === 'rejected').length;
-        
+
         setStats({ total, pending, inProgress, resolved, rejected });
       } catch (error) {
         console.error('Error fetching complaints:', error);
@@ -44,12 +47,12 @@ const DashboardPage = () => {
   }, []);
 
   const filteredComplaints = complaints.filter(complaint => {
-    const matchesSearch = complaint.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          complaint.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          complaint.category.toLowerCase().includes(searchTerm.toLowerCase());
-    
+    const matchesSearch = complaint.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      complaint.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      complaint.category.toLowerCase().includes(searchTerm.toLowerCase());
+
     const matchesFilter = filterStatus === 'all' || complaint.status === filterStatus;
-    
+
     return matchesSearch && matchesFilter;
   });
 
@@ -91,12 +94,12 @@ const DashboardPage = () => {
           <p className="text-primary-100">Track and manage your submitted complaints</p>
         </div>
       </div>
-      
+
       <div className="container-custom py-8">
         {/* Welcome and Stats */}
         <div className="bg-white rounded-xl shadow-md p-6 mb-8">
           <h2 className="text-xl font-semibold mb-6">Welcome, {user?.name}</h2>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             <div className="bg-neutral-50 rounded-lg p-4 flex items-center">
               <div className="bg-primary-100 rounded-full p-3 mr-4">
@@ -107,7 +110,7 @@ const DashboardPage = () => {
                 <p className="text-2xl font-semibold">{stats.total}</p>
               </div>
             </div>
-            
+
             <div className="bg-neutral-50 rounded-lg p-4 flex items-center">
               <div className="bg-warning-light rounded-full p-3 mr-4">
                 <FiClock className="h-6 w-6 text-warning" />
@@ -117,7 +120,7 @@ const DashboardPage = () => {
                 <p className="text-2xl font-semibold">{stats.pending}</p>
               </div>
             </div>
-            
+
             <div className="bg-neutral-50 rounded-lg p-4 flex items-center">
               <div className="bg-primary-50 rounded-full p-3 mr-4">
                 <FiAlertTriangle className="h-6 w-6 text-primary" />
@@ -127,7 +130,7 @@ const DashboardPage = () => {
                 <p className="text-2xl font-semibold">{stats.inProgress}</p>
               </div>
             </div>
-            
+
             <div className="bg-neutral-50 rounded-lg p-4 flex items-center">
               <div className="bg-success-light rounded-full p-3 mr-4">
                 <FiCheckCircle className="h-6 w-6 text-success" />
@@ -137,7 +140,7 @@ const DashboardPage = () => {
                 <p className="text-2xl font-semibold">{stats.resolved}</p>
               </div>
             </div>
-            
+
             <div className="bg-neutral-50 rounded-lg p-4 flex items-center">
               <div className="bg-error-light rounded-full p-3 mr-4">
                 <FiXCircle className="h-6 w-6 text-error" />
@@ -149,12 +152,12 @@ const DashboardPage = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Complaint List */}
         <div className="bg-white rounded-xl shadow-md overflow-hidden">
           <div className="p-6 border-b border-neutral-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <h2 className="text-xl font-semibold">My Complaints</h2>
-            
+
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="relative">
                 <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400" />
@@ -166,7 +169,7 @@ const DashboardPage = () => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
-              
+
               <div className="relative">
                 <FiFilter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400" />
                 <select
@@ -181,14 +184,14 @@ const DashboardPage = () => {
                   <option value="rejected">Rejected</option>
                 </select>
               </div>
-              
+
               <Link to="/submit-complaint" className="btn-primary flex items-center">
                 <FiPlus className="mr-2" />
                 New Complaint
               </Link>
             </div>
           </div>
-          
+
           {isLoading ? (
             <div className="flex justify-center items-center p-8">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
@@ -223,15 +226,16 @@ const DashboardPage = () => {
                 </thead>
                 <tbody className="divide-y divide-neutral-200">
                   {filteredComplaints.map((complaint) => (
-                    <tr 
-                      key={complaint.id} 
+                    <tr
+                      key={complaint.id}
                       className="hover:bg-neutral-50 transition-colors duration-150"
                     >
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500">
-                        #{complaint.id.substring(0, 8)}
+
+                        #{complaint._id.substring(0, 8)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <Link 
+                        <Link
                           to={`/complaints/${complaint.id}`}
                           className="text-primary hover:text-primary-600 font-medium"
                         >

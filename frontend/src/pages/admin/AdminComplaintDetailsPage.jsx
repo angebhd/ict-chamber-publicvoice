@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { 
-  FiArrowLeft, FiCheckCircle, FiClock, FiAlertTriangle, FiXCircle, 
-  FiMessageSquare, FiPaperclip, FiMapPin, FiSend, FiUser, 
+import {
+  FiArrowLeft, FiCheckCircle, FiClock, FiAlertTriangle, FiXCircle,
+  FiMessageSquare, FiPaperclip, FiMapPin, FiSend, FiUser,
   FiUserCheck, FiPhoneCall, FiMail, FiHome, FiEdit3, FiCheck
 } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
@@ -31,11 +31,12 @@ const AdminComplaintDetailsPage = () => {
       try {
         // In a real implementation, you would fetch from actual endpoints
         const response = await api.get(`/admin/complaints/${id}`);
+        response.data.id = response.data._id;
         setComplaint(response.data);
         setSelectedDepartment(response.data.department || '');
         setSelectedStatus(response.data.status || 'pending');
         setSelectedPriority(response.data.priority || 'low');
-        
+
         // Fetch comments
         const commentsResponse = await api.get(`/admin/complaints/${id}/comments`);
         setComments(commentsResponse.data);
@@ -53,9 +54,9 @@ const AdminComplaintDetailsPage = () => {
 
   const updateComplaintStatus = async () => {
     if (!selectedStatus) return;
-    
+
     setIsUpdating(true);
-    
+
     try {
       const updatedComplaint = {
         ...complaint,
@@ -64,9 +65,9 @@ const AdminComplaintDetailsPage = () => {
         priority: selectedPriority,
         updatedAt: new Date().toISOString()
       };
-      
+
       await api.put(`/admin/complaints/${id}`, updatedComplaint);
-      
+
       setComplaint(updatedComplaint);
       notify.success('Complaint updated successfully');
       setIsEditingAssignment(false);
@@ -80,11 +81,11 @@ const AdminComplaintDetailsPage = () => {
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!newComment.trim()) return;
-    
+
     setIsSubmittingComment(true);
-    
+
     try {
       const response = await api.post(`/admin/complaints/${id}/comments`, {
         text: newComment,
@@ -93,7 +94,7 @@ const AdminComplaintDetailsPage = () => {
         userRole: 'admin',
         createdAt: new Date().toISOString()
       });
-      
+
       setComments([...comments, response.data]);
       setNewComment('');
       notify.success('Response added successfully');
@@ -148,7 +149,7 @@ const AdminComplaintDetailsPage = () => {
       public_safety: 'Public Safety',
       other: 'Other'
     };
-    
+
     return categories[categoryId] || categoryId;
   };
 
@@ -163,7 +164,7 @@ const AdminComplaintDetailsPage = () => {
       police: 'Police Department',
       animal_control: 'Animal Control'
     };
-    
+
     return departments[deptId] || 'Unassigned';
   };
 
@@ -201,7 +202,7 @@ const AdminComplaintDetailsPage = () => {
     <div className="pt-16 md:pt-20 pb-16">
       <div className="bg-secondary-600 text-white py-8">
         <div className="container-custom">
-          <Link 
+          <Link
             to="/admin"
             className="inline-flex items-center text-white hover:text-secondary-100 mb-4"
           >
@@ -212,7 +213,7 @@ const AdminComplaintDetailsPage = () => {
             <div>
               <h1 className="text-2xl md:text-3xl font-bold mb-2">{complaint.title}</h1>
               <div className="flex items-center text-secondary-100">
-                <span>Complaint #{complaint.id.substring(0, 8)}</span>
+                <span>Complaint #{complaint._id.substring(0, 8)}</span>
                 <span className="mx-2">•</span>
                 <span>Submitted {format(new Date(complaint.createdAt), 'MMM d, yyyy')}</span>
               </div>
@@ -224,7 +225,7 @@ const AdminComplaintDetailsPage = () => {
           </div>
         </div>
       </div>
-      
+
       <div className="container-custom py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
@@ -233,13 +234,13 @@ const AdminComplaintDetailsPage = () => {
               <div className="p-6">
                 <h2 className="text-xl font-semibold mb-4">Complaint Details</h2>
                 <p className="text-neutral-700 mb-6">{complaint.description}</p>
-                
+
                 {complaint.attachments && complaint.attachments.length > 0 && (
                   <div className="mb-6">
                     <h3 className="text-lg font-medium mb-3">Attachments</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                       {complaint.attachments.map((attachment, index) => (
-                        <div 
+                        <div
                           key={index}
                           className="flex items-center border border-neutral-200 rounded-lg p-3 bg-neutral-50"
                         >
@@ -250,7 +251,8 @@ const AdminComplaintDetailsPage = () => {
                     </div>
                   </div>
                 )}
-                
+                {console.log(complaint)}
+
                 <div className="bg-neutral-50 rounded-lg p-4 flex items-start">
                   <FiMapPin className="h-5 w-5 text-neutral-500 mt-0.5 mr-3" />
                   <div>
@@ -260,7 +262,7 @@ const AdminComplaintDetailsPage = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Citizen Information */}
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
               <div className="p-6 border-b border-neutral-200">
@@ -274,10 +276,10 @@ const AdminComplaintDetailsPage = () => {
                     </div>
                     <div>
                       <h3 className="text-sm font-medium mb-1">Full Name</h3>
-                      <p className="text-neutral-700">{complaint.userName || 'Jane Doe'}</p>
+                      <p className="text-neutral-700">{complaint.user.name || 'Jane Doe'}</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start">
                     <div className="bg-secondary-100 rounded-full p-2 mr-3">
                       <FiUserCheck className="h-5 w-5 text-secondary-600" />
@@ -287,40 +289,40 @@ const AdminComplaintDetailsPage = () => {
                       <p className="text-neutral-700">Verified Citizen</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start">
                     <div className="bg-secondary-100 rounded-full p-2 mr-3">
                       <FiPhoneCall className="h-5 w-5 text-secondary-600" />
                     </div>
                     <div>
                       <h3 className="text-sm font-medium mb-1">Phone Number</h3>
-                      <p className="text-neutral-700">(555) 123-4567</p>
+                      <p className="text-neutral-700">{complaint.user.phone}</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start">
                     <div className="bg-secondary-100 rounded-full p-2 mr-3">
                       <FiMail className="h-5 w-5 text-secondary-600" />
                     </div>
                     <div>
                       <h3 className="text-sm font-medium mb-1">Email Address</h3>
-                      <p className="text-neutral-700">citizen@example.com</p>
+                      <p className="text-neutral-700">{complaint.user.email}</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start md:col-span-2">
                     <div className="bg-secondary-100 rounded-full p-2 mr-3">
                       <FiHome className="h-5 w-5 text-secondary-600" />
                     </div>
                     <div>
                       <h3 className="text-sm font-medium mb-1">Address</h3>
-                      <p className="text-neutral-700">123 Main Street, Anytown, ST 12345</p>
+                      <p className="text-neutral-700">{complaint.user.address}</p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            
+
             {/* Admin Response */}
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
               <div className="p-6 border-b border-neutral-200">
@@ -362,13 +364,13 @@ const AdminComplaintDetailsPage = () => {
                 </form>
               </div>
             </div>
-            
+
             {/* Comments */}
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
               <div className="p-6 border-b border-neutral-200">
                 <h2 className="text-xl font-semibold">Communication History ({comments.length})</h2>
               </div>
-              
+
               <div className="divide-y divide-neutral-200">
                 {comments.length === 0 ? (
                   <div className="p-6 text-center">
@@ -381,21 +383,21 @@ const AdminComplaintDetailsPage = () => {
                         <div className="w-10 h-10 rounded-full mr-3 overflow-hidden">
                           <div className={`
                             w-full h-full flex items-center justify-center 
-                            ${comment.userRole === 'admin' 
-                              ? 'bg-secondary-100 text-secondary-600' 
+                            ${comment.userRole === 'admin'
+                              ? 'bg-secondary-100 text-secondary-600'
                               : 'bg-primary-100 text-primary-600'
                             }
                           `}>
-                            {comment.userName.charAt(0).toUpperCase()}
+                            {comment.user.name.charAt(0).toUpperCase()}
                           </div>
                         </div>
                         <div>
-                          <h4 className="font-medium">{comment.userName}</h4>
+                          <h4 className="font-medium">{comment.user.name}</h4>
                           <p className="text-xs text-neutral-500">
                             {format(new Date(comment.createdAt), 'MMM d, yyyy, h:mm a')}
                           </p>
                         </div>
-                        {comment.userRole === 'admin' ? (
+                        {comment.user.role === 'admin' ? (
                           <span className="ml-2 px-2 py-0.5 rounded text-xs bg-secondary-100 text-secondary-800">
                             Official
                           </span>
@@ -414,14 +416,14 @@ const AdminComplaintDetailsPage = () => {
               </div>
             </div>
           </div>
-          
+
           {/* Sidebar */}
           <div className="space-y-8">
             {/* Assignment and Status */}
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
               <div className="p-6 border-b border-neutral-200 flex justify-between items-center">
                 <h2 className="text-xl font-semibold">Assignment & Status</h2>
-                <button 
+                <button
                   className="text-secondary hover:text-secondary-600 transition-colors"
                   onClick={() => setIsEditingAssignment(!isEditingAssignment)}
                 >
@@ -455,7 +457,7 @@ const AdminComplaintDetailsPage = () => {
                         <option value="animal_control">Animal Control</option>
                       </select>
                     </div>
-                    
+
                     <div>
                       <label className="block text-sm font-medium text-neutral-700 mb-1">
                         Status
@@ -471,7 +473,7 @@ const AdminComplaintDetailsPage = () => {
                         <option value="rejected">Rejected</option>
                       </select>
                     </div>
-                    
+
                     <div>
                       <label className="block text-sm font-medium text-neutral-700 mb-1">
                         Priority
@@ -486,7 +488,7 @@ const AdminComplaintDetailsPage = () => {
                         <option value="high">High</option>
                       </select>
                     </div>
-                    
+
                     <button
                       className="btn-secondary w-full mt-4"
                       onClick={updateComplaintStatus}
@@ -511,23 +513,23 @@ const AdminComplaintDetailsPage = () => {
                         <span className="ml-2">{getStatusBadge(complaint.status)}</span>
                       </dd>
                     </div>
-                    
+
                     <div>
                       <dt className="text-sm font-medium text-neutral-500">Department</dt>
                       <dd className="mt-1 text-neutral-700">
-                        {complaint.department 
-                          ? getDepartmentName(complaint.department) 
+                        {complaint.department
+                          ? getDepartmentName(complaint.department)
                           : 'Not yet assigned'}
                       </dd>
                     </div>
-                    
+
                     <div>
                       <dt className="text-sm font-medium text-neutral-500">Priority</dt>
                       <dd className="mt-1">
                         <span className={`
                           badge
-                          ${complaint.priority === 'high' 
-                            ? 'bg-error-light text-error' 
+                          ${complaint.priority === 'high'
+                            ? 'bg-error-light text-error'
                             : complaint.priority === 'medium'
                               ? 'bg-warning-light text-warning'
                               : 'bg-neutral-100 text-neutral-600'
@@ -537,16 +539,16 @@ const AdminComplaintDetailsPage = () => {
                         </span>
                       </dd>
                     </div>
-                    
+
                     <div>
                       <dt className="text-sm font-medium text-neutral-500">Assigned On</dt>
                       <dd className="mt-1 text-neutral-700">
-                        {complaint.department 
+                        {complaint.department
                           ? format(new Date(complaint.updatedAt), 'MMMM d, yyyy')
                           : 'Not yet assigned'}
                       </dd>
                     </div>
-                    
+
                     <div>
                       <dt className="text-sm font-medium text-neutral-500">Last Updated</dt>
                       <dd className="mt-1 text-neutral-700">
@@ -557,7 +559,7 @@ const AdminComplaintDetailsPage = () => {
                 )}
               </div>
             </div>
-            
+
             {/* Complaint Summary */}
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
               <div className="p-6 border-b border-neutral-200">
@@ -571,14 +573,14 @@ const AdminComplaintDetailsPage = () => {
                       <span className="badge-secondary">{getCategoryName(complaint.category)}</span>
                     </dd>
                   </div>
-                  
+
                   <div>
                     <dt className="text-sm font-medium text-neutral-500">Submitted On</dt>
                     <dd className="mt-1 text-neutral-700">
                       {format(new Date(complaint.createdAt), 'MMMM d, yyyy')}
                     </dd>
                   </div>
-                  
+
                   {complaint.publicDisplay && (
                     <div>
                       <dt className="text-sm font-medium text-neutral-500">Visibility</dt>
@@ -587,7 +589,7 @@ const AdminComplaintDetailsPage = () => {
                       </dd>
                     </div>
                   )}
-                  
+
                   <div>
                     <dt className="text-sm font-medium text-neutral-500">Response SLA</dt>
                     <dd className="mt-1 text-neutral-700">
@@ -601,7 +603,7 @@ const AdminComplaintDetailsPage = () => {
                 </dl>
               </div>
             </div>
-            
+
             {/* Actions */}
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
               <div className="p-6 border-b border-neutral-200">
@@ -612,19 +614,19 @@ const AdminComplaintDetailsPage = () => {
                   <FiMessageSquare className="mr-2" />
                   Send Direct Message
                 </button>
-                
+
                 <button className="btn-outline w-full flex items-center justify-center">
                   <FiPhoneCall className="mr-2" />
                   Call Citizen
                 </button>
-                
+
                 <button className="btn-outline w-full flex items-center justify-center">
                   <FiPaperclip className="mr-2" />
                   Add Internal Note
                 </button>
-                
+
                 {complaint.status === 'pending' && (
-                  <button 
+                  <button
                     className="btn-success w-full flex items-center justify-center"
                     onClick={() => {
                       setSelectedStatus('in_progress');
@@ -635,9 +637,9 @@ const AdminComplaintDetailsPage = () => {
                     Mark as In Progress
                   </button>
                 )}
-                
+
                 {complaint.status === 'in_progress' && (
-                  <button 
+                  <button
                     className="btn-success w-full flex items-center justify-center"
                     onClick={() => {
                       setSelectedStatus('resolved');

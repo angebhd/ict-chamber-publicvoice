@@ -84,7 +84,7 @@ const SubmitComplaintPage = () => {
     try {
       const response = await api.post('/complaints', complaintData);
       notify.success('Complaint submitted successfully!');
-      navigate(`/complaints/${response.data.id}`);
+      navigate(`/complaints/${response.data._id}`);
     } catch (err) {
       console.error('Error submitting complaint:', err);
       setError('Failed to submit complaint. Please try again.');
