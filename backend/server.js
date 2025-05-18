@@ -34,6 +34,10 @@ app.use('/api/admin', adminRoutes);
 
 app.use('/api/complaints', complaintRoutes);
 
+app.get('/', (req, res) => {
+    res.send('Hello, world!, am live');
+});
+
 
 // Start server
 app.listen(PORT, () => {
