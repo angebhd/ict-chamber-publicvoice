@@ -140,6 +140,8 @@ export const initializeSystem = async () => {
     // Check if system is already initialized
     const superAdminExists = await User.findOne({ role: 'superadmin' });
     if (superAdminExists) {
+      console.log("System is already initialized");
+      
       return
       // return res.status(400).json({ message: 'System is already initialized' });
     }
@@ -161,7 +163,7 @@ export const initializeSystem = async () => {
     // Create super admin
     const superAdmin = await User.create({
       name: 'Super Admin',
-      email: 'superadmin@example.com',
+      email: 'superadmin@publicvoice.rw',
       password: 'superadmin123',
       role: 'superadmin',
       isActive: true
