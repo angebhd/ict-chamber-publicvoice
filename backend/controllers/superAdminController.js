@@ -149,11 +149,11 @@ export const initializeSystem = async () => {
     // Create departments
     const departments = [
       { name: 'Public Works Department', code: 'public_works', description: 'Handles infrastructure and maintenance' },
-      { name: 'Water Utility', code: 'water_utility', description: 'Manages water supply and quality' },
-      { name: 'Electricity Utility', code: 'electricity_utility', description: 'Manages power distribution' },
+      { name: 'Water Utility', code: 'wasac', description: 'Manages water supply and quality' },
+      { name: 'Electricity Utility', code: 'reg', description: 'Manages power distribution' },
+      { name: 'Rwanda Investigation Bureau', code: 'rib', description: 'Investigate on crimes' },
       { name: 'Sanitation Department', code: 'sanitation', description: 'Handles waste management and cleaning' },
       { name: 'Transportation Department', code: 'transportation', description: 'Manages public transport and traffic' },
-      { name: 'Parks & Recreation', code: 'parks_recreation', description: 'Maintains parks and recreational facilities' },
       { name: 'Police Department', code: 'police', description: 'Handles law enforcement and public safety' },
       { name: 'Animal Control', code: 'animal_control', description: 'Manages animal-related issues' }
     ];

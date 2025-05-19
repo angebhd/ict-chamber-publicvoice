@@ -243,11 +243,11 @@ const SubmitComplaintPage = () => {
                 >
                   <option value="">Select if known (optional)</option>
                   <option value="public_works">Public Works</option>
-                  <option value="water_utility">Water Utility</option>
-                  <option value="electricity_utility">Electricity Utility</option>
+                  <option value="wasac">Water Utility</option>
+                  <option value="reg">Electricity Utility</option>
+                  <option value="rib">Rwanda Investigation Bureau</option>
                   <option value="sanitation">Sanitation Department</option>
                   <option value="transportation">Transportation Department</option>
-                  <option value="parks_recreation">Parks & Recreation</option>
                   <option value="police">Police Department</option>
                   <option value="animal_control">Animal Control</option>
                 </select>
